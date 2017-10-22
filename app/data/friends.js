@@ -1,7 +1,7 @@
 var peopleArray = [
 {
-  "name":"Ahmed",
-  "photo":"https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/064/1bd/3435aa3.jpg",
+  "name":"John Snow",
+  "photo":"https://media.giphy.com/media/3ohzdUi5U8LBb4GD4s/giphy.gif",
   "scores":[
       5,
       1,
@@ -14,6 +14,120 @@ var peopleArray = [
       4,
       1
     ]
+},
+{
+  "name":"Issa Rae",
+  "photo":"https://media.giphy.com/media/3o7bu4UwKt26YqFYnC/giphy.gif",
+  "scores":[
+      2,
+      1,
+      3,
+      4,
+      4,
+      1,
+      3,
+      5,
+      4,
+      1
+    ]
+},
+{
+  "name":"Snoop Dog",
+  "photo":"https://media.giphy.com/media/WrgtbRE1zywNy/giphy.gif",
+  "scores":[
+      5,
+      2,
+      4,
+      2,
+      2,
+      5,
+      1,
+      1,
+      4,
+      1
+    ]
+},
+{
+  "name":"Will Smith",
+  "photo":"https://media.giphy.com/media/l0MYJnJQ4EiYLxvQ4/giphy.gif",
+  "scores":[
+      5,
+      2,
+      4,
+      3,
+      2,
+      2,
+      3,
+      3,
+      4,
+      1
+    ]
+},
+{
+  "name":"Adam Scott",
+  "photo":"https://media.giphy.com/media/3o7aCSWAq9n5SnCvy8/source.gif",
+  "scores":[
+      2,
+      3,
+      5,
+      1,
+      2,
+      2,
+      2,
+      3,
+      4,
+      3
+    ]
+},
+{
+  "name":"Trump",
+  "photo":"https://media.giphy.com/media/wJNGA01o1Zxp6/giphy.gif",
+  "scores":[
+      2,
+      3,
+      5,
+      1,
+      3,
+      2,
+      2,
+      1,
+      4,
+      3
+    ]
+},
+{
+  "name":"Halle Berry",
+  "photo":"https://media.giphy.com/media/26gs8Ol1XgE5QLPkQ/giphy.gif",
+  "scores":[
+      5,
+      3,
+      5,
+      1,
+      4,
+      3,
+      2,
+      3,
+      2,
+      1
+    ]
+},
+{
+  "name":"Honey Boo Boo",
+  "photo":"https://media.giphy.com/media/3o7btZoWbrNtryj4RO/giphy.gif",
+  "scores":[
+      1,
+      3,
+      2,
+      1,
+      4,
+      3,
+      5,
+      3,
+      2,
+      4
+    ]
 }
+
 ];
 module.exports = peopleArray;
+
