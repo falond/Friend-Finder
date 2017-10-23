@@ -9,6 +9,7 @@
 
     <script src="https://use.fontawesome.com/fa144432ef.js"></script>
     <!-- Latest compiled and minified CSS -->
+    <script src="https://code.jquery.com/jquery.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
   </head>
 
@@ -33,13 +34,13 @@
         <div class="card-body">
           <h4>Your Full Name</h4>
           <div class="input-group">
-            <input id = "formName" class="form-control" type="text" name="name" placeholder="John Smith">
+            <input id = "formName" class="form-control" type="text" name="name" placeholder="Jack Smith">
             <span class="input-group-addon">(Required)</span>
           </div>  
           <br>
           <h4>Link to a Photo Image</h4>
           <div class="input-group">
-            <input id = "formImage" class="form-control" type="text" name="name" placeholder="http://yourphotolink.com.jpg/">
+            <input id = "formImage" class="form-control" type="text" name="name" placeholder="http://yourphotolink.com.jpg">
             <span class="input-group-addon">(Required)</span>
           </div>
         </div>
@@ -138,7 +139,7 @@
 
           <!-- Q8 -->
           <h4><strong>Question 8</strong></h4>
-          <h5>You consider yourself to be more practical than artistic</h5>
+          <h5>You consider yourself to be more practical than artistic.</h5>
           <select data-placeholder="" class="chosen-select" id="Q8">
             <option value=""></option>
             <option value="1">1 (Strongly Disagree)</option>
@@ -177,7 +178,7 @@
 
 
       <!-- Quiz Submit Button -->
-      <button id="submitButton" type="submit" class="btn btn-info btn-block"><h4><span class="glyphicon glyphicon-send"></span> Submit</h4></button> 
+      <button id="submitSurvey" type="submit" class="btn btn-info btn-block"><h4><span class="glyphicon glyphicon-send"></span> Submit</h4></button> 
   
       <br>
 
@@ -218,3 +219,91 @@
 
 
     </div>
+
+   <script type="text/javascript">
+
+              $("#submitSurvey").on("click", function(){
+                  event.preventDefault();
+                  var friendSearch = {
+                  name: $("#formName").val().trim(),
+                  image: $("#formImage").val().trim(),
+                  scores: [$("#q1").val(), $("#q2").val(), $("#q3").val(), $("#q4").val(), $("#q5").val(), $("#q6").val(), $("#q7").val(), $("#q8").val(), $("#q9").val(), $("#q10").val()]
+              };
+              console.log(friendSearch);
+            
+
+              $.post("/api/friends", friendSearch, function(data) {
+                
+                if ( $(this).val() === '' ){
+                alert("Please fill out all fields before submitting!");
+                }
+
+                 // Clear the form when submitting
+               $("#formName").val("");
+               $("#formImage").val("");
+               $("#reserve-email").val("");
+               $("#reserve-unique-id").val("");
+               $("#q1").val("");
+               $("#q2").val("");
+               $("#q3").val("");
+               $("#q4").val("");
+               $("#q5").val("");
+               $("#q6").val("");
+               $("#q7").val("");
+               $("#q8").val("");
+               $("#q9").val("");
+               $("#q10").val("");
+
+
+        });      
+
+      });
+
+
+             
+   
+    
+          
+
+
+
+
+  </script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+<!-- $("#submitSurvey").on("click", function(){
+                  event.preventDefault();
+
+                  function checkInput(){
+           //check to see if all fields are completed
+                    if (){
+           // if yes then collect input
+                      collectInput();
+                    }
+          //if no then alert with please fill out all fields before completing         
+                    else{
+                      alert("Please fill out all fields before submitting!");
+                    }
+              };
+            });
+            
+            function collectInput(){
+              //collect all input from survey fields
+              var friendSearch = {
+                name: $("#formName").val().trim(),
+                image: $("#formImage").val().trim(),
+                scores: [$("#q1").val(), $("#q2").val(), $("#q3").val(), $("#q4").val(), $("#q5").val(), $("#q6").val(), $("#q7").val(), $("#q8").val(), $("#q9").val(), $("#q10"),val(), ]
+              };
+              console.log(friendSearch);
+
+
+            }; -->
+
