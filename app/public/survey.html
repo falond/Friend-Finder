@@ -197,14 +197,14 @@
 
             <!-- "X" Button to close the modal -->
             <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <button type="button" class="close" data-dismiss="modal">x</button>
               <h2 class="modal-title"><strong>Meet Your New Friend!</strong></h2>
             </div>
 
             <!-- Modal Body (For Match Info) -->
             <div class="modal-body">
               <h2 id="matchName"></h2>
-              <img id="matchImg" src="" alt="Image Not Found" style="max-width: 350px;">
+              <img id="matchImg" src="" alt="" style="max-width: 350px;">
             </div>
 
             <!-- Modal Footer (Close Button) -->
@@ -220,44 +220,224 @@
 
     </div>
 
+
+</body>
+</html>
+
    <script type="text/javascript">
 
-              $("#submitSurvey").on("click", function(){
-                  event.preventDefault();
-                  var friendSearch = {
-                  name: $("#formName").val().trim(),
-                  image: $("#formImage").val().trim(),
-                  scores: [$("#q1").val(), $("#q2").val(), $("#q3").val(), $("#q4").val(), $("#q5").val(), $("#q6").val(), $("#q7").val(), $("#q8").val(), $("#q9").val(), $("#q10").val()]
-              };
-              console.log(friendSearch);
+
+
+    $( document ).ready(function() {
+
+      // The 'findSelectedAnswer' function captures the values selected as answers to survey questions.
+      function findSelectedAnswer(){
+
+        var selectedAnswer = $(this).find(":selected").text().charAt(0);
+
+        if(selectedAnswersArr[parseInt($(this).attr("id"))]){
+          selectedAnswersArr[parseInt($(this).attr("id"))] = selectedAnswer;
+        }
+        else
+        {
+          selectedAnswersArr.push(selectedAnswer);
+        }
+        validateForm();
+      } // End of findSelectedAnswer()
+
+
+      // The 'validateForm' function checks to make sure all required fields have a value.
+      function validateForm() {
+
+        // The assumption is that the survey HAS been filled out completely.
+        var isValid = true;
+
+        // However, the 'value' of each 'form-control' class element is checked.
+        $('.form-control').each(function() {
+        // If any value is empty ('') then the entire form is NOT valid.
+          if ( $(this).val() === '' )
+            isValid = false;
+        });
+        // If the check above passed then the function gives us a 'thumbs up'
+        return isValid;
+      }
+
+
+    // When the 'Submit' button is clicked, the following occurs:
+    //    The form inputs are captured and validated to make sure they're not blank
+    //    THe data is send to the friends API.
+    //    The friends API then returns the name and picture of the best match.
+
+    // Create an global variable for an array that holds the answers to survey questions.
+    var selectedAnswersArr= [];
+
+    $("#submitSurvey").on("click", function() {
+
+      // If the validation function gives us a 'thumbs up' then...
+      if (validateForm() == true) {
+
+        // We create a 'friendsData' object for the user's information
+        var friendsData = {
+          name: $("#formName").val(),
+          photo: $("#formImage").val(),
+          // jQuery for each question 'element' and the value provided by the user:
+          scores: [$("#Q1").val(), $("#Q2").val(), $("#Q3").val(), $("#Q4").val(), $("#Q5").val(), $("#Q6").val(), $("#Q7").val(), $("#Q8").val(), $("#Q9").val(), $("#Q10").val(), ]
+        }
+
+        // Then get the URL of the website
+        var currentURL = window.location.origin;
+
+        // And send the data to the friends API which includes logic to determine the best match.
+        $.post(currentURL + "/api/friends", $.param(friendsData, true), function(data){
+
+          // The name and image of that match is the data returned by the callback function.
+          $("#matchName").text(data.name);
+          $('#matchImg').attr("src", data.photo);
+
+          // Which are then displayed in the modal.
+          $("#resultsModal").modal('toggle');
+        }); //End of friends API
+
+      }
+      else
+      {
+        // Otherwise, the validation function was unable to give us a 'thumbs up'
+        alert("Please fill out all fields before submitting!");
+      }
+      return false;
+    });
+
+
+    // When a clieck event occurs a selection the findVal function is called.
+    $(document).on("click", "select", findSelectedAnswer);
+
+  });
+
+  //    $(document).ready(function() {
+  //       // Event Listener for Submission
+  //       $('#submitSurvey').on('click', function() {
+          
+  //         // Check if all the user fields are completed
+  //         checkIfComplete(function(){
+  //           // Proceed with AJAX call if all questions are answered
+  //           if(allFieldsCompleted){
+  //             collectInputs();
+  //           }
+  //           else{
+  //             alert('Please complete all fields before submitting!');
+  //           }
+  //         }); // end checkIfComplete() callback
+  //       }); // end submit listener
+  //     }); // document ready
+  // // Function to valid user input
+  //     function checkIfComplete(callback){
+  //       // Check through all the questions (i.e. iterate through all of class "chosen-select")
+  //       var questionsCompleted;
+  //       $('.chosen-select').each(function(){
+  //         if ( $(this).val() == "" ){
+  //           questionsCompleted = false;
+  //         }
+  //       })
+
+  //        // This counters the async behavior of $.each()
+  //       .promise().done(function(){
+  //         // Check if any questions are incomplete
+  //         if(questionsCompleted == false){
+  //           allFieldsCompleted = false;
+  //         }
+  //         // Determine if Name is entered
+  //         else if( $('#formName').val().trim() == "" ){
+  //           allFieldsCompleted = false;
+  //         }
+  //         // Determine if Link is entered
+  //         else if( $('#formImage').val().trim() == "" ){
+  //           allFieldsCompleted = false;
+  //         }
+  //         // Otherwise, the all fields are completed
+  //         else{
+  //           allFieldsCompleted = true;
+  //         }
+  //         // Fire Off Callback (to counter async behavior of $.each)
+  //         callback();       
+  //       });
+  //     }
+
+  //     function collectInputs(){
+  //       // Make new friend object
+  //        var friendsData = {
+  //         name: $("#name").val(),
+  //         photo: $("#photo").val(),
+  //         // jQuery for each question 'element' and the value provided by the user:
+  //         scores: [$("#q1").val(), $("#q2").val(), $("#q3").val(), $("#q4").val(), $("#q5").val(), $("#q6").val(), $("#q7").val(), $("#q8").val(), $("#q9").val(), $("#q10").val(), ]
+  //       }
+
+  //       // Then get the URL of the website
+  //       var currentURL = window.location.origin;
+
+  //       // And send the data to the friends API which includes logic to determine the best match.
+  //       $.post(currentURL + "/api/friends", $.param(friendsData, true), function(data){
+
+  //         // The name and image of that match is the data returned by the callback function.
+  //         $("#matchName").text(data.name);
+  //         $('#matchImg').attr("src", data.photo);
+
+  //         // Which are then displayed in the modal.
+  //         $("#resultsModal").modal('toggle');
+  //         }); // end AJAX POST
+  //       };
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // var inputFeilds; 
+    //           $("#submitSurvey").on("click", function(){
+    //              checkIfComplete(function(){
+    //               var friendSearch = {
+    //               name: $("#formName").val().trim(),
+    //               image: $("#formImage").val().trim(),
+    //               scores: [$("#q1").val(), $("#q2").val(), $("#q3").val(), $("#q4").val(), $("#q5").val(), $("#q6").val(), $("#q7").val(), $("#q8").val(), $("#q9").val(), $("#q10").val()]
+    //           };
+    //           // console.log(friendSearch);
             
 
-              $.post("/api/friends", friendSearch, function(data) {
+    //           $.post("/api/friends", friendSearch, function(data) {
                 
-                if ( $(this).val() === '' ){
-                alert("Please fill out all fields before submitting!");
-                }
+    //             if (inputFeilds){
+    //             alert("Thank You!");
+    //             collectInput();
+    //             }
 
-                 // Clear the form when submitting
-               $("#formName").val("");
-               $("#formImage").val("");
-               $("#reserve-email").val("");
-               $("#reserve-unique-id").val("");
-               $("#q1").val("");
-               $("#q2").val("");
-               $("#q3").val("");
-               $("#q4").val("");
-               $("#q5").val("");
-               $("#q6").val("");
-               $("#q7").val("");
-               $("#q8").val("");
-               $("#q9").val("");
-               $("#q10").val("");
+    //              // Clear the form when submitting
+    //            $("#formName").val("");
+    //            $("#formImage").val("");
+    //            $("#reserve-email").val("");
+    //            $("#reserve-unique-id").val("");
+    //            $("#q1").val("");
+    //            $("#q2").val("");
+    //            $("#q3").val("");
+    //            $("#q4").val("");
+    //            $("#q5").val("");
+    //            $("#q6").val("");
+    //            $("#q7").val("");
+    //            $("#q8").val("");
+    //            $("#q9").val("");
+    //            $("#q10").val("");
 
 
-        });      
+    //     });      
 
-      });
+    //   });
 
 
              
@@ -269,9 +449,6 @@
 
 
   </script>
-
-</body>
-</html>
 
 
 

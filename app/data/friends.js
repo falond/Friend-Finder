@@ -1,4 +1,4 @@
-var peopleArray = [
+var friendsArray = [
 {
   "name":"John Snow",
   "photo":"https://media.giphy.com/media/3ohzdUi5U8LBb4GD4s/giphy.gif",
@@ -129,5 +129,5 @@ var peopleArray = [
 }
 
 ];
-module.exports = peopleArray;
+module.exports = friendsArray;
 
